@@ -7,7 +7,8 @@ import numpy as np
 
 
 class Data_read:
-    def __init__(self, argvs=sys.argv):
+    def __init__(self, n=2, argvs=[]):
+        self.n = n
         self.argvs = argvs
 
     def reading(self):
@@ -21,7 +22,6 @@ class Data_read:
         y_poin = []
 
         f1 = open("{}".format(self.argvs[1]))
-        f2 = open("{}".format(self.argvs[2]))
 
         lines = f1.readlines()
         for l in lines:
@@ -32,17 +32,22 @@ class Data_read:
             y.append(float(data[2]))
         f1.close()
 
-        lines = f2.readlines()
-        for l in lines:
-            data = l.split()
+        if self.n == 3:
+            f2 = open("{}".format(self.argvs[2]))
+            lines = f2.readlines()
+            for l in lines:
+                data = l.split()
 
-            t_poin.append(float(data[0]))
-            x_poin.append(float(data[1]))
-            y_poin.append(float(data[2]))
+                t_poin.append(float(data[0]))
+                x_poin.append(float(data[1]))
+                y_poin.append(float(data[2]))
 
-        f2.close()
+            f2.close()
 
-        return t, x, y, t_poin, x_poin, y_poin
+        if self.n == 1:
+            return t, x, y
+        else:
+            return t, x, y, t_poin, x_poin, y_poin
 
 
 class Fig_output:
@@ -90,7 +95,10 @@ class Fig_output:
 
 
 def main():
-    rd = Data_read(sys.argv)
+
+    n = len(sys.argv)
+    rd = Data_read(n, sys.argv)
+
     t, x, y, t_poin, x_poin, y_poin = rd.reading()
 
     fo = Fig_output(t, x, y, t_poin, x_poin, y_poin)
