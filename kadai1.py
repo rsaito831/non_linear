@@ -14,9 +14,12 @@ class Function:
         self.y_0 = y_0
 
     def func1(self, t, x, y):  # 関数(1)
+        # return self.a * x - self.c * x * y
         return y
 
     def func2(self, t, x, y):  # 関数(2)
+        # return -self.b * y + self.c * x * y
+        # return -x
         return - x + self.ep * (self.b * math.cos(t) + self.a * x - self.zeta * y - self.c * x**3)
 
 
@@ -28,48 +31,47 @@ class Runge_kutta(Function):
 
     def runge_kutta(self):  # Runge Kutta本体
 
-        t = [self.t_0]
-        x = [self.x_0]
-        y = [self.y_0]
+        t = self.t_0
+        x = self.x_0
+        y = self.y_0
+
+        print(t, " ", x, " ", y)
 
         for i in range(self.times):
-            k1_x = self.h * super().func1(t[i], x[i], y[i])
 
-            k1_y = self.h * super(). func2(t[i], x[i], y[i])
+            k1_x = self.h * super().func1(t, x, y)
 
-            k2_x = self.h * super().func1(t[i] + self.h / 2,
-                                          x[i] + k1_x / 2,
-                                          y[i] + k1_y / 2)
+            k1_y = self.h * super(). func2(t, x, y)
 
-            k2_y = self.h * super().func2(t[i] + self.h / 2,
-                                          x[i] + k1_x / 2,
-                                          y[i] + k1_y / 2)
+            k2_x = self.h * super().func1(t + self.h / 2,
+                                          x + k1_x / 2,
+                                          y + k1_y / 2)
 
-            k3_x = self.h * super().func1(t[i] + self.h / 2,
-                                          x[i] + k2_x / 2,
-                                          y[i] + k2_y / 2)
+            k2_y = self.h * super().func2(t + self.h / 2,
+                                          x + k1_x / 2,
+                                          y + k1_y / 2)
 
-            k3_y = self.h * super().func2(t[i] + self.h / 2,
-                                          x[i] + k2_x / 2,
-                                          y[i] + k2_y / 2)
+            k3_x = self.h * super().func1(t + self.h / 2,
+                                          x + k2_x / 2,
+                                          y + k2_y / 2)
 
-            k4_x = self.h * super().func1(t[i] + self.h,
-                                          x[i] + k3_x,
-                                          y[i] + k3_y)
+            k3_y = self.h * super().func2(t + self.h / 2,
+                                          x + k2_x / 2,
+                                          y + k2_y / 2)
 
-            k4_y = self.h * super().func2(t[i] + self.h,
-                                          x[i] + k3_x,
-                                          y[i] + k3_y)
+            k4_x = self.h * super().func1(t + self.h,
+                                          x + k3_x,
+                                          y + k3_y)
 
-            t.append(t[i] + self.h)
+            k4_y = self.h * super().func2(t + self.h,
+                                          x + k3_x,
+                                          y + k3_y)
 
-            x.append(x[i] + 1 / 6 *
-                     (k1_x + 2 * k2_x + 2 * k3_x + k4_x))
+            t = t + self.h
+            x = x + 1 / 6 * (k1_x + 2 * k2_x + 2 * k3_x + k4_x)
+            y = y + 1 / 6 * (k1_y + 2 * k2_y + 2 * k3_y + k4_y)
 
-            y.append(y[i] + 1 / 6 *
-                     (k1_y + 2 * k2_y + 2 * k3_y + k4_y))
-
-            print(t[i], " ", x[i], " ", y[i])
+            print(t, " ", x, " ", y)
 
             """ print(round(t[i], 3),
                   " ",
@@ -84,9 +86,9 @@ def main():
     h = 0.01  # 刻み幅
 
     t = 0
-    x_0 = 1.01  # x0
-    y_0 = 3.01  # y0
-    ep = 1.5
+    x_0 = 1  # x0
+    y_0 = 0  # y0
+    ep = 0.01
     a = 1
     b = 0.3
     c = 1
