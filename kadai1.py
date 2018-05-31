@@ -31,11 +31,18 @@ class Runge_kutta(Function):
 
     def runge_kutta(self):  # Runge Kutta本体
 
+        f1 = open("sim_result.txt", "w")
+        f2 = open("poin_result.txt", "w")
+
         t = self.t_0
         x = self.x_0
         y = self.y_0
+        t_p = []
+        x_p = []
+        y_p = []
+        cnt_t = 0
 
-        print(t, " ", x, " ", y)
+        f1.write(str(t) + " " + str(x) + " " + str(y) + "\n")
 
         for i in range(self.times):
 
@@ -67,11 +74,17 @@ class Runge_kutta(Function):
                                           x + k3_x,
                                           y + k3_y)
 
+            cnt_t += 1
+            if cnt_t % 628 == 0:
+                t_p.append(t)
+                x_p.append(x)
+                y_p.append(y)
+
             t = t + self.h
             x = x + 1 / 6 * (k1_x + 2 * k2_x + 2 * k3_x + k4_x)
             y = y + 1 / 6 * (k1_y + 2 * k2_y + 2 * k3_y + k4_y)
 
-            print(t, " ", x, " ", y)
+            f1.write(str(t) + " " + str(x) + " " + str(y) + "\n")
 
             """ print(round(t[i], 3),
                   " ",
@@ -79,6 +92,11 @@ class Runge_kutta(Function):
                   " ",
                   round(y[i], 3))
             """
+        for i in range(len(t_p)):
+            f2.write(str(t_p[i]) + " " + str(x_p[i]) + " " + str(y_p[i]) + "\n")
+
+        f1.close()
+        f2.close()
 
 
 def main():
@@ -88,7 +106,7 @@ def main():
     t = 0
     x_0 = 1  # x0
     y_0 = 0  # y0
-    ep = 0.01
+    ep = 0.5
     a = 1
     b = 0.3
     c = 1

@@ -7,7 +7,7 @@ import numpy as np
 
 
 class Data_read:
-    def __init__(self, argvs=sys.argv[1]):
+    def __init__(self, argvs=sys.argv):
         self.argvs = argvs
 
     def reading(self):
@@ -16,24 +16,43 @@ class Data_read:
         x = []
         y = []
 
-        f = open("{}".format(self.argvs))
-        lines = f.readlines()
+        t_poin = []
+        x_poin = []
+        y_poin = []
+
+        f1 = open("{}".format(self.argvs[1]))
+        f2 = open("{}".format(self.argvs[2]))
+
+        lines = f1.readlines()
         for l in lines:
             data = l.split()
 
             t.append(float(data[0]))
             x.append(float(data[1]))
             y.append(float(data[2]))
+        f1.close()
 
-        f.close()
-        return t, x, y
+        lines = f2.readlines()
+        for l in lines:
+            data = l.split()
+
+            t_poin.append(float(data[0]))
+            x_poin.append(float(data[1]))
+            y_poin.append(float(data[2]))
+
+        f2.close()
+
+        return t, x, y, t_poin, x_poin, y_poin
 
 
 class Fig_output:
-    def __init__(self, t, x, y):
+    def __init__(self, t, x, y, t_poin, x_poin, y_poin):
         self.t = t
         self.x = x
         self.y = y
+        self.t_poin = t_poin
+        self.x_poin = x_poin
+        self.y_poin = y_poin
 
     def xy_t_put(self):
         plt.xlabel("Time[s]")
@@ -48,9 +67,10 @@ class Fig_output:
     def x_y_out(self):
         plt.xlabel("x")
         plt.ylabel("Y")
-#       plt.xlim([0, max(self.x)])
-#       plt.ylim([0, max(self.y)])
+#       plt.xlim([300, max(self.x)])
+#       plt.ylim([300, max(self.y)])
         plt.plot(self.x, self.y, linewidth=0.5)
+        plt.plot(self.x_poin, self.y_poin, "r.")
         plt.legend()
         plt.show()
 
@@ -70,10 +90,10 @@ class Fig_output:
 
 
 def main():
-    rd = Data_read(sys.argv[1])
-    t, x, y = rd.reading()
+    rd = Data_read(sys.argv)
+    t, x, y, t_poin, x_poin, y_poin = rd.reading()
 
-    fo = Fig_output(t, x, y)
+    fo = Fig_output(t, x, y, t_poin, x_poin, y_poin)
     fo.xy_t_put()
     fo.x_y_out()
     fo.r3_out()
