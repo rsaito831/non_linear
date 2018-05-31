@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import math
 
 
 class Function:
@@ -32,7 +31,9 @@ class Runge_kutta(Function):
         x = self.x_0
         y = self.y_0
 
-        print(t, " ", x, " ", y)
+        f = open("kadai3_result.txt", "w")
+
+        f.write(str(t) + " " + str(x) + " " + str(y) + "\n")
 
         for i in range(self.times):
 
@@ -68,14 +69,9 @@ class Runge_kutta(Function):
             x = x + 1 / 6 * (k1_x + 2 * k2_x + 2 * k3_x + k4_x)
             y = y + 1 / 6 * (k1_y + 2 * k2_y + 2 * k3_y + k4_y)
 
-            print(t, " ", x, " ", y)
+            f.write(str(t) + " " + str(x) + " " + str(y) + "\n")
 
-            """ print(round(t[i], 3),
-                  " ",
-                  round(x[i], 3),
-                  " ",
-                  round(y[i], 3))
-            """
+        f.close()
 
 
 def main():
