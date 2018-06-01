@@ -1,0 +1,97 @@
+	\section{ダフィング方程式をルンゲクッタ法で解き，解軌跡を図示せよ} \label{seq:sample}
+		\begin{eqnarray}
+			\dot{x} & = & y \\
+			\dot{y} & = & -x + \epsilon (b \cos{t}+ax-\zeta y - cx^3)
+		\end{eqnarray}
+		$a=c=1$，$b=0.3$，$\zeta = 0.1$とする．\\
+		\\
+	\section{ダフィング方程式の平均化方程式を導出せよ} \label{seq:sample}
+
+		x，yをそれぞれ以下のようにおく．
+
+		\begin{eqnarray}
+			x(t) & = & u(t) \cos{t} + v(t) \sin(t) \\
+			y(t) & = & - u(t) \sin{t} + v(t) \cos(t)
+		\end{eqnarray}
+
+		それぞれtで微分する．
+
+		\begin{eqnarray}
+			\dot{x}(t) & = & \dot{u}(t) \cos{t} -u(t) \sin(t) + \dot{v}(t) \sin(t) +v(t) \cos(t) \\
+			\dot{y}(t) & = & - \dot{u}(t) \sin{t} -u(t) \cos(t) + \dot{v}(t) \cos(t) - v(t) \sin(t)
+		\end{eqnarray}
+
+		(4)，(5)式を用いて(1)式より
+
+		\begin{eqnarray}
+			\dot{u}(t) \cos(t) + \dot{v}(t) \sin(t) = 0
+		\end{eqnarray}
+
+		(3)，(6)式を用いて(2)式より
+
+		\begin{eqnarray}
+			 - \dot{u}(t) \sin(t) + \dot{v}(t) \cos (t) = \epsilon (b \cos{t}+ax-\zeta y - cx^3)
+		\end{eqnarray}
+
+		(7)，(8)式より$\dot{u}$，$\dot{v}$は以下のように表せる．
+
+		\begin{eqnarray}
+			\dot{u}(t) & = & - \epsilon (b \cos(t)+ax-\zeta y - cx^3) \sin (t) \\
+			\dot{v}(t) & = & \epsilon (b \cos(t)+ax-\zeta y - cx^3) \cos (t)
+		\end{eqnarray}
+
+		$\epsilon \rightarrow 0$のときは，$u$と$v$はゆっくりと変化するので$t=0~2 \pi $で平均化して近似できる．
+
+		\begin{eqnarray}
+			\dot{u}(t) & = & - \frac{\epsilon}{2 \pi} \int_0^{2 \pi}(b \cos(t)+ax-\zeta y - cx^3) \sin (t) dt \\
+			\dot{v}(t) & = & \frac{\epsilon}{2 \pi} \int_0^{2 \pi}(b \cos(t)+ax-\zeta y - cx^3) \cos (t) dt
+		\end{eqnarray}
+
+		先に後にひつようになる定積分の値を算出しておく．
+
+		\begin{eqnarray}
+			\int_0^{2 \pi} \sin(t) \cos(t) dt & = & 0 \\
+			\int_0^{2 \pi} \sin^2 (t) dt & = & \frac{1}{2}\int_0^{2 \pi}(1- \cos(2t)) dt = \pi \\
+			\int_0^{2 \pi} \cos^3(t) \sin(t) dt & = & - \int_0^{2 \pi} \cos^3(t) (\cos(t))' dt = 0 \\
+			\int_0^{2 \pi} \sin^3(t) \cos(t) dt & = & \int_0^{2 \pi} \sin^3(t) (\sin(t))' dt = 0 \\
+			\int_0^{2 \pi} \sin^2(t) \cos^2(t) dt & = & \frac{1}{4} \int_0^{2 \pi} \sin^2(2t) dt = \frac{1}{8} \int_0^{2 \pi} (1- \cos(4t)) dt = \frac{\pi}{4} \\
+			\int_0^{2 \pi} \sin^4(t) dt & = & \frac{1}{8} \int_0^{2 \pi} (3 - 4 \cos(2t) + \cos(4t)) dt = \frac{3 \pi}{4} \\
+			\int_0^{2 \pi} \cos^4(t) dt & = & \frac{1}{8} \int_0^{2 \pi} (3 + 4 \cos(2t) + \cos(4t)) dt = \frac{3 \pi}{4}
+		\end{eqnarray}
+
+		(11)式$\dot{u}$，(12)式$\dot{v}$は(13)〜(19)式を用いて
+
+		\begin{eqnarray}
+			\begin{split}
+				\dot{u} & =  -\frac{\epsilon}{2 \pi} \int_0^{2 \pi}(b \cos(t) \sin (t) + ax \sin (t) -\zeta y \sin (t) - cx^3 \sin (t)) dt \\
+					   & = - \frac{\epsilon}{2 \pi} \int_0^{2 \pi} ( b \cos(t) \sin (t) + a (u \sin(t) \cos(t) + v \sin^2(t) ) - \zeta ( -u \sin^2(t) + v \sin(t) \cos(t)) -cx^3 \sin(t) ) dt \\
+					   & =  - \frac{\epsilon}{2 \pi} (\pi av + \pi \zeta u + \int_0^{2 \pi}  (u^3 \sin(t) \cos^3(t)  +u^2 v \sin^2(t) \cos^2(t) +2u^2 v \sin^2 (t) \cos^2(t)  + 2uv^2 \sin^3(t) \cos(t) \\
+					  &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \   + uv^2 \sin^3(t) \cos(t) +v^3 \sin^4(t))  dt)\\
+					  & =	- \frac{\epsilon}{2 \pi} (\pi av + \pi \zeta u - \frac{3 \pi}{4}cr^2v)\\
+					  & = - \frac{\epsilon}{2}[\zeta v +(a - \frac{3}{4}cr^2)v]
+			\end{split}
+		\end{eqnarray}
+
+		\begin{eqnarray}
+			\begin{split}
+				\dot{v} & =  \frac{\epsilon}{2 \pi} \int_0^{2 \pi}(b \cos^2(t) + ax \cos (t) -\zeta y \cos (t) - cx^3 \cos (t)) dt \\
+					   & =  \frac{\epsilon}{2 \pi} \int_0^{2 \pi}(b \cos^2(t) + a( u\cos^2 (t) + v\sin(t) \cos(t) ) -\zeta (-u \sin(t) \cos (t) + v \cos^2(t) ) - cx^3 \cos (t)) dt \\
+					   & =  \frac{\epsilon}{2 \pi}(\pi b + \pi au - \pi v \zeta - c \int_0^{2 \pi}( u^3 \cos^4(t) + u^2v \sin(t) \cos^3(t) + 2u^2v \sin(t) \cos^3(t) + 2uv^2 \sin^2(t) \cos^2(t) \\
+					   &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  + uv^2 \sin^2(t) \cos^2(t) + v^3 \sin^3 \cos(t) )dt)	\\
+					   & = \frac{\epsilon}{2 \pi}(\pi b + \pi au - \pi v \zeta - \frac{3 \pi}{4}cr^2u) \\
+					   & = \frac{\epsilon}{2}[(a - \frac{3}{4}cr^2)u -v \zeta + b]
+			\end{split}
+		\end{eqnarray}
+
+		したがって
+
+		\begin{eqnarray}
+			\dot{u} & = - \frac{\epsilon}{2}[\zeta v +(a - \frac{3}{4}cr^2)v] \\
+			\dot{v} & = \frac{\epsilon}{2}[(a - \frac{3}{4}cr^2)u -v \zeta + b]
+		\end{eqnarray}
+
+	\section{2．で求めた平均化方程式を数値積分し解軌跡を描け．また，1．の結果と比較して考察を述べよ．} \label{seq:sample}
+
+
+\end{document}
+
