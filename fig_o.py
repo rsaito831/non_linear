@@ -63,14 +63,23 @@ class Fig_output:
     def xy_t_put(self):
         plt.xlabel("Time[s]")
         plt.ylabel("The number of individuals x,y")
-#       plt.xlim([0, max(self.t)])
-#       plt.ylim([0, max(max(self.x), max(self.y))])
+
+        y_max = abs(max(self.y))
+        y_min = abs(min(self.y))
+        if y_min > y_max:
+            y_max = y_min
+
+        plt.ylim(-y_max, y_max)
+
         plt.plot(self.t, self.x, label="x-t")
         plt.plot(self.t, self.y, label="y-t")
-        plt.legend()
+
+        plt.legend(loc="upper right")
+        plt.savefig("xy_t.eps")
         plt.show()
 
-    def x_y_out(self):
+    def x_y_out(self, th=0):
+
         if self.n == 2:
             plt.xlabel("u")
             plt.ylabel("v")
@@ -78,11 +87,32 @@ class Fig_output:
             plt.xlabel("x")
             plt.ylabel("y")
 
-#       plt.xlim([300, max(self.x)])
-#       plt.ylim([300, max(self.y)])
-        plt.plot(self.x, self.y, linewidth=0.5)
-        plt.plot(self.x_poin, self.y_poin, "r.")
-        plt.legend()
+        x_max = abs(max(self.x[th:]))
+        x_min = abs(min(self.x[th:]))
+        if x_min > x_max:
+            x_max = x_min
+
+        y_max = abs(max(self.y[th:]))
+        y_min = abs(min(self.y[th:]))
+        if y_min > y_max:
+            y_max = y_min
+
+        plt.xlim(-x_max, x_max)
+        plt.ylim(-y_max, y_max)
+
+        plt.plot(self.x[th:], self.y[th:], linewidth=0.5)
+
+        if self.n == 3:
+            for i in range(len(self.x_poin)):
+                if th <= 628 * i:
+                    hoge = i
+                    break
+            x_p = self.x_poin[hoge:]
+            y_p = self.y_poin[hoge:]
+            plt.plot(x_p, y_p, "r.", label="periodic solution")
+            plt.legend(loc="upper right")
+
+        plt.savefig("x_y.eps")
         plt.show()
 
     def r3_out(self):
@@ -101,6 +131,7 @@ class Fig_output:
 
 
 def main():
+    th = 800000
 
     n = len(sys.argv)
     rd = Data_read(n, sys.argv)
@@ -109,8 +140,8 @@ def main():
 
     fo = Fig_output(t, x, y, t_poin, x_poin, y_poin, n)
     fo.xy_t_put()
-    fo.x_y_out()
-    fo.r3_out()
+    fo.x_y_out(th)
+    # fo.r3_out()
 
 
 if __name__ == "__main__":

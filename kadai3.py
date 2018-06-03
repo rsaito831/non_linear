@@ -108,13 +108,13 @@ class Runge_kutta(Function):
 
 
 def main():
-    times = 50000  # 試行回数
+    times = 1000000  # 試行回数
     h = 2 * math.pi / 628  # 刻み幅
 
     t_0 = 0
-    x_0 = 1  # x0
-    y_0 = 0  # y0
-    ep = 5
+    x_0 = -1  # x0
+    y_0 = -1  # y0
+    ep = 0.05
     a = 1
     b = 0.3
     c = 1
