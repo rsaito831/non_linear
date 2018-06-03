@@ -51,13 +51,14 @@ class Data_read:
 
 
 class Fig_output:
-    def __init__(self, t, x, y, t_poin, x_poin, y_poin):
+    def __init__(self, t, x, y, t_poin, x_poin, y_poin, n):
         self.t = t
         self.x = x
         self.y = y
         self.t_poin = t_poin
         self.x_poin = x_poin
         self.y_poin = y_poin
+        self.n = n
 
     def xy_t_put(self):
         plt.xlabel("Time[s]")
@@ -70,8 +71,13 @@ class Fig_output:
         plt.show()
 
     def x_y_out(self):
-        plt.xlabel("x")
-        plt.ylabel("Y")
+        if self.n == 2:
+            plt.xlabel("u")
+            plt.ylabel("v")
+        else:
+            plt.xlabel("x")
+            plt.ylabel("y")
+
 #       plt.xlim([300, max(self.x)])
 #       plt.ylim([300, max(self.y)])
         plt.plot(self.x, self.y, linewidth=0.5)
@@ -101,7 +107,7 @@ def main():
 
     t, x, y, t_poin, x_poin, y_poin = rd.reading()
 
-    fo = Fig_output(t, x, y, t_poin, x_poin, y_poin)
+    fo = Fig_output(t, x, y, t_poin, x_poin, y_poin, n)
     fo.xy_t_put()
     fo.x_y_out()
     fo.r3_out()
