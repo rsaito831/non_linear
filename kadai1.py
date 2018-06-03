@@ -35,57 +35,54 @@ class Runge_kutta(Function):
         f1 = open("sim_result.txt", "w")
         f2 = open("poin_result.txt", "w")
 
-#        t = self.t_0
-        t = [i / 100 for i in range(0, self.times)]
+        t = self.t_0
         x = self.x_0
         y = self.y_0
 
         cnt_t = -1
 
-#        f1.write(str(t) + " " + str(x) + " " + str(y) + "\n")
-        f1.write(str(t[0]) + " " + str(x) + " " + str(y) + "\n")
+        f1.write(str(t) + " " + str(x) + " " + str(y) + "\n")
 
         for i in range(self.times):
 
-            k1_x = self.h * super().func1(t[i], x, y)
+            k1_x = self.h * super().func1(t, x, y)
 
-            k1_y = self.h * super(). func2(t[i], x, y)
+            k1_y = self.h * super(). func2(t, x, y)
 
-            k2_x = self.h * super().func1(t[i] + self.h / 2,
+            k2_x = self.h * super().func1(t + self.h / 2,
                                           x + k1_x / 2,
                                           y + k1_y / 2)
 
-            k2_y = self.h * super().func2(t[i] + self.h / 2,
+            k2_y = self.h * super().func2(t + self.h / 2,
                                           x + k1_x / 2,
                                           y + k1_y / 2)
 
-            k3_x = self.h * super().func1(t[i] + self.h / 2,
+            k3_x = self.h * super().func1(t + self.h / 2,
                                           x + k2_x / 2,
                                           y + k2_y / 2)
 
-            k3_y = self.h * super().func2(t[i] + self.h / 2,
+            k3_y = self.h * super().func2(t + self.h / 2,
                                           x + k2_x / 2,
                                           y + k2_y / 2)
 
-            k4_x = self.h * super().func1(t[i] + self.h,
+            k4_x = self.h * super().func1(t + self.h,
                                           x + k3_x,
                                           y + k3_y)
 
-            k4_y = self.h * super().func2(t[i] + self.h,
+            k4_y = self.h * super().func2(t + self.h,
                                           x + k3_x,
                                           y + k3_y)
 
             cnt_t += 1
             if cnt_t % 628 == 0:
                 cnt_t = 0
-                f2.write(str(t[i]) + " " + str(x) + " " + str(y) + "\n")
+                f2.write(str(t) + " " + str(x) + " " + str(y) + "\n")
 
-            # t = t + self.h
+            t = t + self.h
             x = x + 1 / 6 * (k1_x + 2 * k2_x + 2 * k3_x + k4_x)
             y = y + 1 / 6 * (k1_y + 2 * k2_y + 2 * k3_y + k4_y)
 
-            # f1.write(str(t) + " " + str(x) + " " + str(y) + "\n")
-            f1.write(str(t[i]) + " " + str(x) + " " + str(y) + "\n")
+            f1.write(str(t) + " " + str(x) + " " + str(y) + "\n")
 
         f1.close()
         f2.close()
@@ -93,12 +90,12 @@ class Runge_kutta(Function):
 
 def main():
     times = 50000  # 試行回数
-    h = 0.01  # 刻み幅
+    h = 2 * math.pi / 628  # 刻み幅
 
     t = 0
     x_0 = 1  # x0
     y_0 = 0  # y0
-    ep = 0.01
+    ep = 5
     a = 1
     b = 0.3
     c = 1
